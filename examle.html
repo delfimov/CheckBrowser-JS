@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CheckBrowser JS example</title>
+    <script src="js/checkbrowser.js" type="text/javascript" language="javascript"></script>
+    <style>
+        .content, .header, footer {
+            padding:30px 60px 30px 60px;
+        }
+        .header {
+            background:#f1f1f1;
+        }
+		footer {
+            background:#f1f1f1;
+			margin-bottom:30px;
+		}
+        code {
+            background:#ffffcc;
+        }
+        .note {
+            margin-bottom:30px;
+            color:#666;
+            font-size:80%;
+        }
+	</style>
+    <script>
+        window.onload = function() {
+            checkBrowser.warning();
+        }
+    </script>
+</head>
+
+<body>
+
+    <div class="note">This message is an example.</div>        
+    
+	<div class="header">
+        <h1>CheckBrowser JS</h1>
+        <div>An easy way to warn user about deprecated browser.</div>
+    </div>
+	
+    <div class="content">
+    
+    <p>Get <a href="http://github.com/Groozly/CheckBrowser-JS">CheckBrowser JS on GitHub</a>.</p>
+    
+    <h2>Usage</h2>
+    <ul>
+        <li>Insert checkbrowser.js 
+        (<code>&lt;script src=&quot;checkbrowser.js&quot;&gt;&lt;/script&gt;</code>).
+        </li>
+        
+        <li>Call checkBrowser.warning() after page load 
+        (<code>window.onload = function() { checkBrowser.warning(); }</code>).
+        </li>
+    </ul>
+    
+    <h2>Optional</h2>
+    <ul>
+        <li>Modify styles in checkbrowser.css</li>
+        <li>Modify defaults in checkbrowser.js (or modify before checkBrowser.warning())</li>
+    </ul>
+
+    <h2>Todo</h2>
+    <ul>
+        <li>Multilanguage</li>
+        <li>...</li>
+    </ul>
+    
+    <h2>License</h2>
+    <p>Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+    
+    </div>
+    
+	<footer>
+		<p>&copy; <a href="mailto:dmitry@elfimov.ru">Dmitry Elfimov</a> 2012</p>
+	</footer>
+    
+</body>
+</html>
