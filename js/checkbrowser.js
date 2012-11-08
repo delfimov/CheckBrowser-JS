@@ -28,14 +28,14 @@ var checkBrowser = {
     },
     
     modernBrowsers: {
-        firefox: '20.0',
+        firefox: '10.0',
         chrome:  '12.0',
         opera:   '10.0',
         msie:    '9.0',
     },
         
     warning: function() {
-        if (true || !this.isCookie()) {
+        if (!this.isCookie()) {
             this.setCookie();
             if (this.isOld()) {
                 this.addCSS();
