@@ -1,5 +1,5 @@
-/*
- * checkBrowser 
+п»ї/*
+ * checkBrowser-JS
  * Easy way to warn user about deprecated browser.
  *
  * https://github.com/Groozly/JS-Cookie
@@ -8,40 +8,85 @@
  * Released under the MIT License.
  * http://www.opensource.org/licenses/mit-license.php
  *
- * Date: 2012-11-08
+ * Date: 2012-11-09
  */
  
 var checkBrowser = {
     
-    cookieName: 'checkBrowser',
-    
-    cssFile: 'css/checkbrowser.css',
-    
-    // message: 'Вы используете устаревший браузер.<br /> Для того, чтобы использовать все возможности сайта, загрузите и установите один из современных браузеров: ', // russian
-    message: 'Your browser is out of date.<br /> It has known security flaws and may not display all features of this and and other sites. Please download and install a modern browser.', // english
-    
-    browsers: {
-        firefox: {name: 'Mozilla Firefox',   link: 'http://www.mozilla.com/firefox'},
-        chrome:  {name: 'Google Chrome',     link: 'http://www.google.com/chrome'},
-        opera:   {name: 'Opera',             link: 'http://www.opera.com/browser/download/'},
-        msie:    {name: 'Internet Explorer', link: 'http://www.microsoft.com/ie'}
-    },
-    
-    modernBrowsers: {
-        firefox: '10.0',
-        chrome:  '12.0',
-        opera:   '10.0',
-        msie:    '9.0',
-    },
+    config: {
+        cookie: 'checkBrowser',
         
-    warning: function() {
+        css: 'css/checkbrowser.css',
+        
+        language: 'en',
+        
+        messages: {
+            en: 'Your browser is out of date.<br /> It has known security flaws and may not display all features of this and and other sites. Please download and install a modern browser.', // english
+            ru: 'Р’С‹ РёСЃРїРѕР»СЊР·СѓРµС‚Рµ СѓСЃС‚Р°СЂРµРІС€РёР№ Р±СЂР°СѓР·РµСЂ.<br /> Р§С‚РѕР±С‹ РѕР±РµР·РѕРїР°СЃРёС‚СЊ СЃРІРѕР№ РєРѕРјРїСЊСЋС‚РµСЂ Рё РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІСЃРµ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё СЌС‚РѕРіРѕ Рё РґСЂСѓРіРёС… СЃР°Р№С‚РѕРІ, Р·Р°РіСЂСѓР·РёС‚Рµ Рё СѓСЃС‚Р°РЅРѕРІРёС‚Рµ СЃРѕРІСЂРµРјРµРЅРЅС‹Р№ Р±СЂР°СѓР·РµСЂ.' // russian
+        },
+        
+        modern: {
+            firefox: '10.0',
+            chrome:  '12.0',
+            opera:   '10.0',
+            msie:    '9.0',
+        },
+        
+        browsers: {
+            firefox: {name: 'Mozilla Firefox',   link: 'http://www.mozilla.com/firefox'},
+            chrome:  {name: 'Google Chrome',     link: 'http://www.google.com/chrome'},
+            opera:   {name: 'Opera',             link: 'http://www.opera.com/browser/download/'},
+            msie:    {name: 'Internet Explorer', link: 'http://www.microsoft.com/ie'}
+        }
+    },
+
+    getText: function() {
+        var out = ''; 
+        out += '<div id="check-browser-warning">';
+        out += '<div class="check-browser-message">' + this.config.messages[this.config.language] + '</div>'
+        out += '<div class="check-browser-browsers">';
+        for (var id in this.config.browsers) {
+            out += '<a href="'+this.config.browsers[id].link+'" id="check-browser-'+id+'" class="check-browser-link">'+this.config.browsers[id].name+'</a>';
+        }
+        out += '</div>';
+        out += '</div>';
+        return out;
+    },
+    
+    warning: function(config) {
+        this.setLanguage();
+        if (arguments.length > 0) {
+            this.setConfig(config);
+        }
         if (!this.isCookie()) {
             this.setCookie();
             if (this.isOld()) {
                 this.addCSS();
                 document.body.innerHTML = this.getText() + document.body.innerHTML;
-            } else {
-                return '';
+            }
+        }
+    },
+    
+    setConfig: function(config) {
+        for (var name in config) {
+            if (typeof(this.config[name]) !== 'undefined') {
+                this.config[name] = config[name];
+            }
+        }
+    },
+    
+    setLanguage: function() {
+        var language = window.navigator.userLanguage || window.navigator.language;
+        if (typeof(language) !== 'undefined') {
+            var pos = language.indexOf('-');
+            if (pos < 0) {
+                var pos = language.indexOf('_');
+            }
+            if (pos > 0) {
+                language = language.slice(0, pos).toLowerCase();
+                if (typeof(this.config.messages[language]) !== 'undefined') {
+                    this.config.language = language;
+                }
             }
         }
     },
@@ -51,17 +96,17 @@ var checkBrowser = {
         link.rel  = 'stylesheet';
         link.type = 'text/css';
         link.media = 'all';
-        link.href = this.cssFile;
+        link.href = this.config.css;
         document.getElementsByTagName('head')[0].appendChild(link);
     },
     
     isOld: function() {
         var browser = this.getBrowser();
-        if (this.modernBrowsers[browser[0]] != null) {
+        if (typeof(this.config.modern[browser[0]]) !== 'undefined') {
             var thisVersion = browser[1].split('.'),
-                modernVersion = this.modernBrowsers[browser[0]].split('.');
+                modernVersion = this.config.modern[browser[0]].split('.');
             if (thisVersion[0] >= modernVersion[0]) {
-                if (thisVersion[1] != null && thisVersion[1] >= modernVersion[1]) {
+                if (typeof(thisVersion[1]) !== 'undefined' && thisVersion[1] >= modernVersion[1]) {
                     return false;
                 }
             }
@@ -72,40 +117,25 @@ var checkBrowser = {
     },
     
     getBrowser: function() {
-        var tmp;
-        var browser = navigator.userAgent.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
-        if (browser && (tmp = navigator.userAgent.match(/version\/([\.\d]+)/i)) != null) browser[2] = tmp[1];
-        browser = browser ? [browser[1].toLowerCase(), browser[2]] : [navigator.appName.toLowerCase(), navigator.appVersion];
-        return browser;
-    },
-    
-    getText: function() {
-        var out = ''; 
-        out += '<div id="check-browser-warning">';
-        out += '<div class="check-browser-message">' + this.message + '</div>'
-        out += '<div class="check-browser-browsers">';
-        for (var id in this.browsers) {
-            out += '<a href="'+this.browsers[id].link+'" id="check-browser-'+id+'" class="check-browser-link">'+this.browsers[id].name+'</a>';
+        var ua = navigator.userAgent;
+        var browser = ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if (browser != null) {
+            var tmp = ua.match(/version\/([\.\d]+)/i);
+            if (tmp != null) {
+                browser[2] = tmp[1];
+            }
+        } else {
+            browser = [navigator.appName, navigator.appVersion];
         }
-        out += '</div>';
-        out += '</div>';
-        return out;
+        return [browser[1].toLowerCase(), browser[2]];
     },
     
     setCookie: function() {
-        document.cookie = this.cookieName + '=1;path=/;';
+        document.cookie = this.config.cookie + '=1;path=/;';
     },
     
     isCookie: function() {
-        var k = this.cookieName + '=';
-        var c = document.cookie.split(';');
-		for (var i = 0, l = c.length; i < l; i++) {
-            c[i] = c[i].replace(/^\s+/,'');
-			if (c[i].indexOf(k) === 0) {
-				return c[i].substring(k.length) == '1';
-			}
-		}
-        return false;
+        return document.cookie.indexOf(this.config.cookie + '=1') >= 0;
     }
     
     

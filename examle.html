@@ -17,17 +17,26 @@
 		}
         code {
             background:#ffffcc;
+            padding:3px;
         }
         .note {
             margin-bottom:30px;
             color:#666;
             font-size:80%;
         }
+        h2 {
+            margin:1em 0 0 0;
+        }
+        li {
+            margin:.5em 0;
+        }
 	</style>
     <script>
         window.onload = function() {
             // checkBrowser.warning();
             checkBrowser.addCSS();
+            checkBrowser.setLanguage();
+            // checkBrowser.setConfig({language:'en'});
             document.body.innerHTML = checkBrowser.getText() + document.body.innerHTML;
         }
     </script>
@@ -46,6 +55,14 @@
     
     <p>Get <a href="http://github.com/Groozly/CheckBrowser-JS">CheckBrowser JS on GitHub</a>.</p>
     
+    <h2>Features</h2>
+    <ul>
+        <li>Unobtrusive (shows message once per visit)</li>
+        <li>Browser detection (<code>checkBrowser.getBrowser()</code> returns an array with browser name and version)</li>
+        <li>Multilanguage (with automatic user language detection)</li>
+        <li>Customizable (modify css/checkbrowser.css)</li>
+    </ul>
+        
     <h2>Usage</h2>
     <ul>
         <li>Insert checkbrowser.js 
@@ -60,14 +77,24 @@
     <h2>Optional</h2>
     <ul>
         <li>Modify styles in checkbrowser.css</li>
-        <li>Modify defaults in checkbrowser.js (or modify before checkBrowser.warning())</li>
+        <li>Spicify config in checkBrowser.warning() (<code>window.onload = function() { checkBrowser.warning({language:'en', css:'css/checkbrowser.css'}); }</code>) </li>
+        <li>Modify defaults in checkbrowser.js</li>
+    </ul>
+    
+    <h2>Config options</h2>
+    <ul>
+        <li>cookie &mdash; cookie name</li>
+        <li>css &mdash; path to css file</li>
+        <li>language &mdash; user language</li>
+        <li>messages &mdash; warning messages array</li>
+        <li>modern &mdash; modern browsers</li>
+        <li>browsers &mdash; show this browsers in warning</li>
     </ul>
 
-    <h2>Todo</h2>
+    <!--h2>Todo</h2>
     <ul>
-        <li>Multilanguage</li>
         <li>...</li>
-    </ul>
+    </ul-->
     
     <h2>License</h2>
     <p>Released under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
