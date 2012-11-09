@@ -6,8 +6,8 @@ An easy way to warn user about deprecated browser.
 
 Usage
 -----
-* Insert checkbrowser.js (<script src="checkbrowser.js"></script>)
-* Call checkBrowser.warning() after page load (window.onload = function() { checkBrowser.warning(); })
+* Insert checkbrowser.js (<code>&lt;script src="checkbrowser.js"&gt;&lt;/script&gt;</code>)
+* Call checkBrowser.warning() after page load (<code>window.onload = function() { checkBrowser.warning(); }</code>)
 
 
 Features
@@ -21,7 +21,7 @@ Features
 Optional
 --------
 * Modify styles in checkbrowser.css
-* Spicify config in checkBrowser.warning() (window.onload = function() { checkBrowser.warning({language:'en', css:'css/checkbrowser.css'}); })
+* Spicify config in checkBrowser.warning() (<code>window.onload = function() { checkBrowser.warning({language:'en', css:'css/checkbrowser.css'}); }</code>)
 * Modify defaults in checkbrowser.js
 
 
