@@ -22,7 +22,7 @@ var checkBrowser = {
         
         messages: {
             en: 'Your browser is out of date.<br /> It has known security flaws and may not display all features of this and and other sites. Please download and install a modern browser.', // english
-            ru: 'Вы используете устаревший браузер.<br /> Чтобы обезопасить свой компьютер и использовать все возможности этого и других сайтов, загрузите и установите современный браузер.' // russian
+            ru: 'Вы используете устаревший браузер.<br /> Чтобы обезопасить свой компьютер и использовать все возможности этого и других сайтов, установите современный браузер.' // russian
         },
         
         modern: {
@@ -92,12 +92,14 @@ var checkBrowser = {
     },
     
     addCSS: function() {
-        var link  = document.createElement('link');
-        link.rel  = 'stylesheet';
-        link.type = 'text/css';
-        link.media = 'all';
-        link.href = this.config.css;
-        document.getElementsByTagName('head')[0].appendChild(link);
+        if (this.config.css) {
+            var link  = document.createElement('link');
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.media = 'all';
+            link.href = this.config.css;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
     },
     
     isOld: function() {
@@ -105,8 +107,8 @@ var checkBrowser = {
         if (typeof(this.config.modern[browser[0]]) !== 'undefined') {
             var thisVersion = browser[1].split('.'),
                 modernVersion = this.config.modern[browser[0]].split('.');
-            if (thisVersion[0] >= modernVersion[0]) {
-                if (typeof(thisVersion[1]) !== 'undefined' && thisVersion[1] >= modernVersion[1]) {
+            if (parseInt(thisVersion[0]) >= parseInt(modernVersion[0])) {
+                if (typeof(thisVersion[1]) !== 'undefined' && parseInt(thisVersion[1]) >= parseInt(modernVersion[1])) {
                     return false;
                 }
             }
