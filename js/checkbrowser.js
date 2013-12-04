@@ -29,7 +29,7 @@ var checkBrowser = {
             firefox: '10.0',
             chrome:  '12.0',
             opera:   '10.0',
-            msie:    '9.0',
+            msie:    '9.0'
         },
         
         browsers: {
